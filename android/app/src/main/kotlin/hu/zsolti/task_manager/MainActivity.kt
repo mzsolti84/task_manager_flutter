@@ -1,0 +1,6 @@
+package hu.zsolti.task_manager
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
