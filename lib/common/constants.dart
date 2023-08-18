@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/common/task_type_enum.dart';
 
 class AppConstants {
   AppConstants._();
@@ -11,4 +12,6 @@ class AppConstants {
 
   static const Color iconColor1 = Colors.white;
   static const Color iconColor2 = Colors.black;
+
+  static const List<TaskType> taskTypeList = TaskType.values;
 }

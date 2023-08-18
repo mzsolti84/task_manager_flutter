@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/common/constants.dart';
 import 'package:task_manager/domain/model/settings_model.dart';
 import 'package:task_manager/ui/settings/settings_page.dart';
+import 'package:task_manager/ui/tasks/task_details.dart';
 import 'package:task_manager/ui/tasks/task_page.dart';
+
+import '../domain/model/task_model.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -26,9 +29,16 @@ class MainApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         if (settings.name == '/settings') {
           return MaterialPageRoute(
-            builder: (_) => SettingsPage(setting: settings.arguments as TaskSettings),
+            builder: (_) =>
+                SettingsPage(setting: settings.arguments as TaskSettings),
+          );
+        } else if (settings.name == '/details') {
+          return MaterialPageRoute(
+            builder: (_) =>
+                TaskDetailsUI(task: settings.arguments as Task),
           );
         }
+        return null;
       },
     );
   }

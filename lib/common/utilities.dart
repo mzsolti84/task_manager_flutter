@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:uuid/uuid.dart';
 
 class Utilities {
   static String generateRandomString(int length) {
@@ -10,6 +11,26 @@ class Utilities {
         .join();
 
     return randomString;
+  }
+
+  static String generateRandomId({required int length, required List<String> existingIds}) {
+    var randomId = '';
+    bool next;
+    do {
+      next = false;
+      randomId = Utilities.generateRandomString(length);
+      if (existingIds.contains(randomId)) {
+        next = true;
+      }
+    } while (next);
+
+    return randomId;
+  }
+
+  static String getCustomUniqueId() {
+    const uuid = Uuid();
+    String uniqueId = uuid.v4();
+    return uniqueId;
   }
 }
 

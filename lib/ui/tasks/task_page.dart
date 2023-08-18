@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_manager/ui/settings/task_settings_bloc.dart';
 import 'package:task_manager/ui/tasks/task_page_bloc.dart';
 import 'package:task_manager/ui/tasks/view/header_view.dart';
 import 'package:task_manager/ui/tasks/view/task_info_view.dart';
@@ -16,17 +15,9 @@ class TaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) =>
-              getIt<TaskPageBloc>()..add(const TaskPageEvent.taskListLoad()),
-        ),
-        BlocProvider(
-          create: (_) =>
-              getIt<TaskSettingsBloc>()..add(const TaskSettingsEvent.loaded()),
-        ),
-      ],
+    return BlocProvider(
+      create: (_) =>
+          getIt<TaskPageBloc>()..add(const TaskPageEvent.taskListLoad()),
       child: const TaskPageUI(),
     );
   }
@@ -38,7 +29,7 @@ class TaskPageUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Task> taskList = [];
-    String name = getIt<SettingsInteractor>().getFirstname() ?? 'Anonimusz';
+    String name = 'Anonimusz';
 
     return Scaffold(
       body: SafeArea(
@@ -51,6 +42,8 @@ class TaskPageUI extends StatelessWidget {
                   initial: () {},
                   loading: () {},
                   finished: (tasks, successfully, error) {
+                    name = getIt<SettingsInteractor>().getFirstname() ??
+                        'Anonimusz';
                     if (successfully) {
                       taskList = List.from(tasks!);
                       debugPrint('UpdateWhen: ${taskList.toString()}');

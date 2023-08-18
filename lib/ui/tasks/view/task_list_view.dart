@@ -21,6 +21,7 @@ class TaskListView extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemBuilder: (context, index) {
           var currentItem = tasks[index];
+          var assetPictureName = currentItem.type;
           return Dismissible(
             background: Container(
               margin: const EdgeInsets.symmetric(horizontal: 6),
@@ -36,7 +37,7 @@ class TaskListView extends StatelessWidget {
                 ),
               ),
             ),
-            key: UniqueKey(),
+            key: Key(currentItem.id),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {
               context.read<TaskPageBloc>().add(TaskPageEvent.taskDelete(index));
@@ -49,7 +50,18 @@ class TaskListView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: ListTile(
-                leading: Checkbox(
+                key: Key(currentItem.id),
+                onTap: () async {
+                  var updatedTask = await Navigator.pushNamed(context, '/details',
+                      arguments: currentItem);
+                },
+                leading:
+                CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Colors.transparent,
+                    backgroundImage: AssetImage('assets/picture/$assetPictureName.jpg'),
+                ),
+                trailing: Checkbox(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),
                   side: BorderSide(width: 2, color: AppConstants.clrLevel3),
@@ -57,7 +69,8 @@ class TaskListView extends StatelessWidget {
                   activeColor: AppConstants.clrLevel3,
                   value: currentItem.completed,
                   onChanged: (value) {
-                    debugPrint('Currentitem: ${currentItem.completed}, value: ${value.toString()}');
+                    debugPrint(
+                        'Currentitem: ${currentItem.completed}, value: ${value.toString()}');
                     context
                         .read<TaskPageBloc>()
                         .add(TaskPageEvent.taskUpdate(index, value!));

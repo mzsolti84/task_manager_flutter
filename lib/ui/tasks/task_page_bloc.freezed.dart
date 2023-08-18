@@ -19,7 +19,7 @@ mixin _$TaskPageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String title, bool completed) taskCreate,
+    required TResult Function(Task task) taskCreate,
     required TResult Function() taskListLoad,
     required TResult Function(int index, bool completed) taskUpdate,
     required TResult Function(int index) taskDelete,
@@ -30,7 +30,7 @@ mixin _$TaskPageEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String title, bool completed)? taskCreate,
+    TResult? Function(Task task)? taskCreate,
     TResult? Function()? taskListLoad,
     TResult? Function(int index, bool completed)? taskUpdate,
     TResult? Function(int index)? taskDelete,
@@ -41,7 +41,7 @@ mixin _$TaskPageEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String title, bool completed)? taskCreate,
+    TResult Function(Task task)? taskCreate,
     TResult Function()? taskListLoad,
     TResult Function(int index, bool completed)? taskUpdate,
     TResult Function(int index)? taskDelete,
@@ -143,7 +143,7 @@ class _$_Started implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String title, bool completed) taskCreate,
+    required TResult Function(Task task) taskCreate,
     required TResult Function() taskListLoad,
     required TResult Function(int index, bool completed) taskUpdate,
     required TResult Function(int index) taskDelete,
@@ -157,7 +157,7 @@ class _$_Started implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String title, bool completed)? taskCreate,
+    TResult? Function(Task task)? taskCreate,
     TResult? Function()? taskListLoad,
     TResult? Function(int index, bool completed)? taskUpdate,
     TResult? Function(int index)? taskDelete,
@@ -171,7 +171,7 @@ class _$_Started implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String title, bool completed)? taskCreate,
+    TResult Function(Task task)? taskCreate,
     TResult Function()? taskListLoad,
     TResult Function(int index, bool completed)? taskUpdate,
     TResult Function(int index)? taskDelete,
@@ -243,7 +243,7 @@ abstract class _$$_TaskCreateCopyWith<$Res> {
           _$_TaskCreate value, $Res Function(_$_TaskCreate) then) =
       __$$_TaskCreateCopyWithImpl<$Res>;
   @useResult
-  $Res call({String title, bool completed});
+  $Res call({Task task});
 }
 
 /// @nodoc
@@ -257,18 +257,13 @@ class __$$_TaskCreateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = null,
-    Object? completed = null,
+    Object? task = null,
   }) {
     return _then(_$_TaskCreate(
-      null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      null == completed
-          ? _value.completed
-          : completed // ignore: cast_nullable_to_non_nullable
-              as bool,
+      null == task
+          ? _value.task
+          : task // ignore: cast_nullable_to_non_nullable
+              as Task,
     ));
   }
 }
@@ -276,16 +271,14 @@ class __$$_TaskCreateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_TaskCreate implements _TaskCreate {
-  const _$_TaskCreate(this.title, this.completed);
+  const _$_TaskCreate(this.task);
 
   @override
-  final String title;
-  @override
-  final bool completed;
+  final Task task;
 
   @override
   String toString() {
-    return 'TaskPageEvent.taskCreate(title: $title, completed: $completed)';
+    return 'TaskPageEvent.taskCreate(task: $task)';
   }
 
   @override
@@ -293,13 +286,11 @@ class _$_TaskCreate implements _TaskCreate {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TaskCreate &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.completed, completed) ||
-                other.completed == completed));
+            (identical(other.task, task) || other.task == task));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, completed);
+  int get hashCode => Object.hash(runtimeType, task);
 
   @JsonKey(ignore: true)
   @override
@@ -311,35 +302,35 @@ class _$_TaskCreate implements _TaskCreate {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String title, bool completed) taskCreate,
+    required TResult Function(Task task) taskCreate,
     required TResult Function() taskListLoad,
     required TResult Function(int index, bool completed) taskUpdate,
     required TResult Function(int index) taskDelete,
     required TResult Function() taskDeleteAll,
     required TResult Function() taskDeleteAllCompleted,
   }) {
-    return taskCreate(title, completed);
+    return taskCreate(task);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String title, bool completed)? taskCreate,
+    TResult? Function(Task task)? taskCreate,
     TResult? Function()? taskListLoad,
     TResult? Function(int index, bool completed)? taskUpdate,
     TResult? Function(int index)? taskDelete,
     TResult? Function()? taskDeleteAll,
     TResult? Function()? taskDeleteAllCompleted,
   }) {
-    return taskCreate?.call(title, completed);
+    return taskCreate?.call(task);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String title, bool completed)? taskCreate,
+    TResult Function(Task task)? taskCreate,
     TResult Function()? taskListLoad,
     TResult Function(int index, bool completed)? taskUpdate,
     TResult Function(int index)? taskDelete,
@@ -348,7 +339,7 @@ class _$_TaskCreate implements _TaskCreate {
     required TResult orElse(),
   }) {
     if (taskCreate != null) {
-      return taskCreate(title, completed);
+      return taskCreate(task);
     }
     return orElse();
   }
@@ -402,11 +393,9 @@ class _$_TaskCreate implements _TaskCreate {
 }
 
 abstract class _TaskCreate implements TaskPageEvent {
-  const factory _TaskCreate(final String title, final bool completed) =
-      _$_TaskCreate;
+  const factory _TaskCreate(final Task task) = _$_TaskCreate;
 
-  String get title;
-  bool get completed;
+  Task get task;
   @JsonKey(ignore: true)
   _$$_TaskCreateCopyWith<_$_TaskCreate> get copyWith =>
       throw _privateConstructorUsedError;
@@ -451,7 +440,7 @@ class _$_TaskListLoad implements _TaskListLoad {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String title, bool completed) taskCreate,
+    required TResult Function(Task task) taskCreate,
     required TResult Function() taskListLoad,
     required TResult Function(int index, bool completed) taskUpdate,
     required TResult Function(int index) taskDelete,
@@ -465,7 +454,7 @@ class _$_TaskListLoad implements _TaskListLoad {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String title, bool completed)? taskCreate,
+    TResult? Function(Task task)? taskCreate,
     TResult? Function()? taskListLoad,
     TResult? Function(int index, bool completed)? taskUpdate,
     TResult? Function(int index)? taskDelete,
@@ -479,7 +468,7 @@ class _$_TaskListLoad implements _TaskListLoad {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String title, bool completed)? taskCreate,
+    TResult Function(Task task)? taskCreate,
     TResult Function()? taskListLoad,
     TResult Function(int index, bool completed)? taskUpdate,
     TResult Function(int index)? taskDelete,
@@ -619,7 +608,7 @@ class _$_TaskUpdate implements _TaskUpdate {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String title, bool completed) taskCreate,
+    required TResult Function(Task task) taskCreate,
     required TResult Function() taskListLoad,
     required TResult Function(int index, bool completed) taskUpdate,
     required TResult Function(int index) taskDelete,
@@ -633,7 +622,7 @@ class _$_TaskUpdate implements _TaskUpdate {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String title, bool completed)? taskCreate,
+    TResult? Function(Task task)? taskCreate,
     TResult? Function()? taskListLoad,
     TResult? Function(int index, bool completed)? taskUpdate,
     TResult? Function(int index)? taskDelete,
@@ -647,7 +636,7 @@ class _$_TaskUpdate implements _TaskUpdate {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String title, bool completed)? taskCreate,
+    TResult Function(Task task)? taskCreate,
     TResult Function()? taskListLoad,
     TResult Function(int index, bool completed)? taskUpdate,
     TResult Function(int index)? taskDelete,
@@ -785,7 +774,7 @@ class _$_TaskDelete implements _TaskDelete {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String title, bool completed) taskCreate,
+    required TResult Function(Task task) taskCreate,
     required TResult Function() taskListLoad,
     required TResult Function(int index, bool completed) taskUpdate,
     required TResult Function(int index) taskDelete,
@@ -799,7 +788,7 @@ class _$_TaskDelete implements _TaskDelete {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String title, bool completed)? taskCreate,
+    TResult? Function(Task task)? taskCreate,
     TResult? Function()? taskListLoad,
     TResult? Function(int index, bool completed)? taskUpdate,
     TResult? Function(int index)? taskDelete,
@@ -813,7 +802,7 @@ class _$_TaskDelete implements _TaskDelete {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String title, bool completed)? taskCreate,
+    TResult Function(Task task)? taskCreate,
     TResult Function()? taskListLoad,
     TResult Function(int index, bool completed)? taskUpdate,
     TResult Function(int index)? taskDelete,
@@ -923,7 +912,7 @@ class _$_TaskDeleteAll implements _TaskDeleteAll {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String title, bool completed) taskCreate,
+    required TResult Function(Task task) taskCreate,
     required TResult Function() taskListLoad,
     required TResult Function(int index, bool completed) taskUpdate,
     required TResult Function(int index) taskDelete,
@@ -937,7 +926,7 @@ class _$_TaskDeleteAll implements _TaskDeleteAll {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String title, bool completed)? taskCreate,
+    TResult? Function(Task task)? taskCreate,
     TResult? Function()? taskListLoad,
     TResult? Function(int index, bool completed)? taskUpdate,
     TResult? Function(int index)? taskDelete,
@@ -951,7 +940,7 @@ class _$_TaskDeleteAll implements _TaskDeleteAll {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String title, bool completed)? taskCreate,
+    TResult Function(Task task)? taskCreate,
     TResult Function()? taskListLoad,
     TResult Function(int index, bool completed)? taskUpdate,
     TResult Function(int index)? taskDelete,
@@ -1057,7 +1046,7 @@ class _$_TaskDeleteAllCompleted implements _TaskDeleteAllCompleted {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String title, bool completed) taskCreate,
+    required TResult Function(Task task) taskCreate,
     required TResult Function() taskListLoad,
     required TResult Function(int index, bool completed) taskUpdate,
     required TResult Function(int index) taskDelete,
@@ -1071,7 +1060,7 @@ class _$_TaskDeleteAllCompleted implements _TaskDeleteAllCompleted {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String title, bool completed)? taskCreate,
+    TResult? Function(Task task)? taskCreate,
     TResult? Function()? taskListLoad,
     TResult? Function(int index, bool completed)? taskUpdate,
     TResult? Function(int index)? taskDelete,
@@ -1085,7 +1074,7 @@ class _$_TaskDeleteAllCompleted implements _TaskDeleteAllCompleted {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String title, bool completed)? taskCreate,
+    TResult Function(Task task)? taskCreate,
     TResult Function()? taskListLoad,
     TResult Function(int index, bool completed)? taskUpdate,
     TResult Function(int index)? taskDelete,

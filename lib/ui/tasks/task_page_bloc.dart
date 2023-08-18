@@ -2,9 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:task_manager/common/task_exception.dart';
+import 'package:task_manager/common/utilities.dart';
 import 'package:task_manager/domain/interactor/task_interactor.dart';
 
-import '../../domain/model/settings_model.dart';
 import '../../domain/model/task_model.dart';
 
 part 'task_page_event.dart';
@@ -21,13 +21,12 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
       emit.call(const TaskPageState.loading());
       try {
         var taskList =
-            await _taskInteractor.addTask(event.title, event.completed);
+            await _taskInteractor.addTask(event.task);
         emit.call(TaskPageState.finished(
             tasks: taskList,
             successfullyFinished: true));
       } on TaskException catch (e) {
-        print(e.message);
-        var taskList = await _taskInteractor.getAllTasks();
+        var taskList = _taskInteractor.getAllTasks();
         emit.call(TaskPageState.finished(
             tasks: taskList,
             successfullyFinished: false,
@@ -37,13 +36,12 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
 
     on<_TaskListLoad>((event, emit) async {
       emit.call(const TaskPageState.loading());
-      var taskList = await _taskInteractor.getAllTasks();
+      var taskList = _taskInteractor.getAllTasks();
       if (taskList != null) {
         emit.call(TaskPageState.finished(
             tasks: taskList,
             successfullyFinished: true));
       }
-      print('emit!');
     });
 
     on<_TaskUpdate>((event, emit) async {
@@ -53,7 +51,7 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageState> {
       emit.call(TaskPageState.finished(
           tasks: taskList,
           successfullyFinished: true));
-      print('Update: ${taskList.toString()}');
+      var id = Utilities.getCustomUniqueId();
     });
 
     on<_TaskDelete>((event, emit) async {

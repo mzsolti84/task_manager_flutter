@@ -4,6 +4,8 @@ import 'package:task_manager/common/constants.dart';
 import 'package:task_manager/common/delete_enum.dart';
 import 'package:task_manager/ui/bottom_sheets/delete_bottom_sheet.dart';
 
+import '../../../common/utilities.dart';
+import '../../../domain/model/task_model.dart';
 import '../../bottom_sheets/add_task_bottom_sheet.dart';
 import '../../widgets/bottom_sheet_builder.dart';
 import '../task_page_bloc.dart';
@@ -81,14 +83,30 @@ class HeaderView extends StatelessWidget {
           flex: 1,
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
+            onTap: () {
+              context.read<TaskPageBloc>().add(const TaskPageEvent.taskListLoad());
+            },
+            child: Icon(
+              Icons.refresh,
+              size: 36,
+              color: AppConstants.clrLevel3,
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
             onTap: () async {
-              var taskTitle = (await bottomSheetBuilder(
+              var taskData = (await bottomSheetBuilder(
                 context,
                 const AddTaskBottomSheet(),
-              )) as String?;
-              if (context.mounted && taskTitle != null) {
+              )) as Map<String, String>?;
+              if (context.mounted && taskData != null) {
+                String id = Utilities.getCustomUniqueId();
+                var newTask = Task(id, taskData['title']!, false, taskData['type']!, '2029-12-31T23:59:59Z');
                 context.read<TaskPageBloc>().add(
-                  TaskPageEvent.taskCreate(taskTitle, false),
+                  TaskPageEvent.taskCreate(newTask),
                 );
               }
             },
